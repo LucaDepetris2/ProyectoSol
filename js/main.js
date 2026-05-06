@@ -185,6 +185,9 @@ function initNavScroll() {
 }
 
 /* ---- DROPDOWN ---- */
+function lockScroll()   { document.body.style.overflow = 'hidden'; }
+function unlockScroll() { document.body.style.overflow = ''; }
+
 function initDropdowns() {
   document.querySelectorAll('.has-drop').forEach(item => {
     const trigger = item.querySelector(':scope > a');
@@ -193,12 +196,14 @@ function initDropdowns() {
       e.preventDefault();
       const isOpen = item.classList.contains('open');
       document.querySelectorAll('.has-drop.open').forEach(d => d.classList.remove('open'));
-      if (!isOpen) item.classList.add('open');
+      if (!isOpen) { item.classList.add('open'); lockScroll(); }
+      else unlockScroll();
     });
   });
   document.addEventListener('click', e => {
     if (!e.target.closest('.has-drop')) {
       document.querySelectorAll('.has-drop.open').forEach(d => d.classList.remove('open'));
+      unlockScroll();
     }
   });
 }
@@ -211,9 +216,14 @@ function initHamburger() {
   btn.addEventListener('click', () => {
     btn.classList.toggle('open');
     mob.classList.toggle('open');
+    mob.classList.contains('open') ? lockScroll() : unlockScroll();
   });
   mob.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => { btn.classList.remove('open'); mob.classList.remove('open'); });
+    a.addEventListener('click', () => {
+      btn.classList.remove('open');
+      mob.classList.remove('open');
+      unlockScroll();
+    });
   });
 }
 
@@ -221,7 +231,7 @@ function initHamburger() {
 function initScrollAnim() {
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  }, { threshold: 0.08 });
 
   document.querySelectorAll('.fade-up, .fade-in').forEach(el => obs.observe(el));
 }
