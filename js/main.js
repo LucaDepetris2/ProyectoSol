@@ -185,9 +185,6 @@ function initNavScroll() {
 }
 
 /* ---- DROPDOWN ---- */
-function lockScroll()   { document.body.style.overflow = 'hidden'; }
-function unlockScroll() { document.body.style.overflow = ''; }
-
 function initDropdowns() {
   document.querySelectorAll('.has-drop').forEach(item => {
     const trigger = item.querySelector(':scope > a');
@@ -196,16 +193,35 @@ function initDropdowns() {
       e.preventDefault();
       const isOpen = item.classList.contains('open');
       document.querySelectorAll('.has-drop.open').forEach(d => d.classList.remove('open'));
-      if (!isOpen) { item.classList.add('open'); lockScroll(); }
-      else unlockScroll();
+      if (!isOpen) item.classList.add('open');
     });
   });
   document.addEventListener('click', e => {
-    if (!e.target.closest('.has-drop')) {
+    if (!e.target.closest('.has-drop'))
       document.querySelectorAll('.has-drop.open').forEach(d => d.classList.remove('open'));
-      unlockScroll();
-    }
   });
+}
+
+/* ---- SCROLL LOCK (intercepta eventos directamente en document) ---- */
+const SCROLL_KEYS = ['ArrowUp','ArrowDown','PageUp','PageDown',' ','Home','End'];
+
+function _blockTouch(e) {
+  /* Permite scroll dentro del propio mob-nav */
+  if (e.target.closest && e.target.closest('#mobNav')) return;
+  e.preventDefault();
+}
+function _blockWheel(e)  { e.preventDefault(); }
+function _blockKeys(e)   { if (SCROLL_KEYS.includes(e.key)) e.preventDefault(); }
+
+function lockScroll() {
+  document.addEventListener('touchmove', _blockTouch, { passive: false });
+  document.addEventListener('wheel',     _blockWheel, { passive: false });
+  document.addEventListener('keydown',   _blockKeys);
+}
+function unlockScroll() {
+  document.removeEventListener('touchmove', _blockTouch);
+  document.removeEventListener('wheel',     _blockWheel);
+  document.removeEventListener('keydown',   _blockKeys);
 }
 
 /* ---- HAMBURGER ---- */
@@ -213,18 +229,28 @@ function initHamburger() {
   const btn = document.getElementById('hamburger');
   const mob = document.getElementById('mobNav');
   if (!btn || !mob) return;
-  btn.addEventListener('click', () => {
-    btn.classList.toggle('open');
-    mob.classList.toggle('open');
-    mob.classList.contains('open') ? lockScroll() : unlockScroll();
-  });
-  mob.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
-      btn.classList.remove('open');
-      mob.classList.remove('open');
-      unlockScroll();
-    });
-  });
+
+  /* Backdrop fullscreen */
+  const bd = document.createElement('div');
+  bd.className = 'nav-backdrop';
+  document.body.appendChild(bd);
+
+  const openNav = () => {
+    btn.classList.add('open');
+    mob.classList.add('open');
+    bd.classList.add('open');
+    lockScroll();
+  };
+  const closeNav = () => {
+    btn.classList.remove('open');
+    mob.classList.remove('open');
+    bd.classList.remove('open');
+    unlockScroll();
+  };
+
+  btn.addEventListener('click', () => mob.classList.contains('open') ? closeNav() : openNav());
+  bd.addEventListener('click', closeNav);
+  mob.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
 }
 
 /* ---- SCROLL ANIMATIONS ---- */

@@ -171,12 +171,19 @@ p  { font-size: 1rem; line-height: 1.75; }
 /* Mobile menu */
 .mob-nav {
   display: none; position: fixed;
-  top: var(--nav-h); left: 0; right: 0;
+  top: var(--nav-h); left: 0; right: 0; bottom: 0;
   background: var(--dark-2); padding: 20px 24px 28px;
   flex-direction: column; gap: 4px; z-index: 999;
-  border-bottom: 2px solid var(--orange);
+  overflow-y: auto;
 }
 .mob-nav.open { display: flex; }
+
+/* Backdrop */
+.nav-backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.55); z-index: 998;
+}
+.nav-backdrop.open { display: block; }
 .mob-nav a {
   font-family: var(--ff-h); font-size: .95rem; font-weight: 500;
   letter-spacing: .06em; text-transform: uppercase;
@@ -189,7 +196,7 @@ p  { font-size: 1rem; line-height: 1.75; }
 
 /* ---- HERO (Home) ---- */
 .hero {
-  min-height: 100vh; background: var(--dark);
+  min-height: 78vh; background: var(--dark);
   position: relative; display: flex; align-items: center;
   overflow: hidden; padding-top: var(--nav-h);
 }
@@ -211,7 +218,7 @@ p  { font-size: 1rem; line-height: 1.75; }
   width: 5px; background: var(--orange); z-index: 3;
 }
 
-.hero-inner { position: relative; z-index: 3; padding: 80px 0; }
+.hero-inner { position: relative; z-index: 3; padding: 40px 0; }
 
 .hero-tag {
   font-family: var(--ff-h); font-size: .8rem;
