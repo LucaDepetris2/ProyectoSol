@@ -8,7 +8,13 @@ function buildNav(base) {
 <nav class="navbar" id="navbar">
   <div class="nav-container">
     <a href="${base}index.html" class="nav-logo">
-      <div class="logo-circle"><span>NV</span></div>
+      <svg class="nav-logo-svg" width="44" height="44" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="46" stroke="rgba(255,255,255,.85)" stroke-width="6"/>
+        <path d="M4 50 C18 30 82 30 96 50 C82 70 18 70 4 50" stroke="rgba(255,255,255,.85)" stroke-width="5.5" fill="none"/>
+        <path d="M50 4 C32 18 32 82 50 96" stroke="rgba(255,255,255,.85)" stroke-width="5.5" fill="none"/>
+        <path d="M50 4 C68 18 68 82 50 96" stroke="rgba(255,255,255,.85)" stroke-width="5.5" fill="none"/>
+        <text x="50" y="60" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700" font-size="30" fill="#f87f2c">NV</text>
+      </svg>
       <div class="logo-label">
         <span class="nv">NV</span>
         <span class="ind">Individuales</span>
@@ -50,7 +56,13 @@ function buildFooter(base) {
     <div class="footer-g">
       <div class="ft-brand">
         <a href="${base}index.html" class="nav-logo" style="display:inline-flex;">
-          <div class="logo-circle"><span>NV</span></div>
+          <svg class="nav-logo-svg" width="44" height="44" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="46" stroke="rgba(255,255,255,.85)" stroke-width="6"/>
+            <path d="M4 50 C18 30 82 30 96 50 C82 70 18 70 4 50" stroke="rgba(255,255,255,.85)" stroke-width="5.5" fill="none"/>
+            <path d="M50 4 C32 18 32 82 50 96" stroke="rgba(255,255,255,.85)" stroke-width="5.5" fill="none"/>
+            <path d="M50 4 C68 18 68 82 50 96" stroke="rgba(255,255,255,.85)" stroke-width="5.5" fill="none"/>
+            <text x="50" y="60" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700" font-size="30" fill="#f87f2c">NV</text>
+          </svg>
           <div class="logo-label">
             <span class="nv">NV</span>
             <span class="ind">Individuales</span>
